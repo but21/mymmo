@@ -9,7 +9,7 @@ using SkillBridge.Message;
 
 namespace GameServer.Services
 {
-    // Singleton<> 单例
+    // Singleton<> 用于单例
     class HelloWorldService : Singleton<HelloWorldService>
     {
         public void Init()
@@ -19,6 +19,7 @@ namespace GameServer.Services
 
         public void Start()
         {
+            // 订阅需要处理的消息
             MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<FirstTestRequest>(this.OnFirstTestRequest);
         }
 
@@ -27,6 +28,7 @@ namespace GameServer.Services
 
         }
 
+        // 消息响应函数
         void OnFirstTestRequest(NetConnection<NetSession> sender, FirstTestRequest request)
         {
             Log.InfoFormat($"FirstTestRequeset: Helloworld:{request.Helloworld}");
