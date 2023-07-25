@@ -109,8 +109,6 @@
     <Compile Include="Entities\Monster.cs" />
     <Compile Include="GameServer.cs" />
     <Compile Include="Network\ExtensionMethods.cs" />
-    <Compile Include="Network\INetSession.cs" />
-    <Compile Include="Network\IPostResponse.cs" />
     <Compile Include="Network\NetConnection.cs" />
     <Compile Include="Network\NetEventArgs.cs" />
     <Compile Include="Network\NetService.cs" />
