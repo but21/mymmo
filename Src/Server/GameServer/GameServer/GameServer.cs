@@ -25,8 +25,9 @@ namespace GameServer
             network = new NetService();
             network.Init(8000);
 
-            HelloWorldService.Instance.Init(); 
+            HelloWorldService.Instance.Init();
 
+            UserService.Instance.Init();
             DBService.Instance.Init();
             thread = new Thread(new ThreadStart(this.Update));
             return true;

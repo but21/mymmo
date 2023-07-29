@@ -1,3 +1,4 @@
+using SkillBridge.Message;
 using UnityEngine;
 
 
@@ -13,11 +14,13 @@ namespace Assets.Scripts.Test
             Network.NetClient.Instance.Connect();
 
             // 发送消息到服务端
-            SkillBridge.Message.NetMessage msg = new SkillBridge.Message.NetMessage(); // 构建主消息
-            msg.Request = new SkillBridge.Message.NetMessageRequest();  // 创构建请求消息
-            msg.Request.firstTestRequest = new SkillBridge.Message.FirstTestRequest(); // 构建自己定义的消息
+            NetMessage msg = new NetMessage(); // 构建主消息
+            msg.Request = new NetMessageRequest();  // 创构建请求消息
+            msg.Request.firstTestRequest = new FirstTestRequest(); // 构建自己定义的消息
             msg.Request.firstTestRequest.Helloworld = "Hello World!"; // 为我们自己定义的消息填充数据
             Network.NetClient.Instance.SendMessage(msg); // 发送消息
+
+            
         }
 
         // Update is called once per frame
