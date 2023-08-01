@@ -34,7 +34,7 @@ public class UICharacterSelect : MonoBehaviour
     void Start()
     {
         InitCharacterSelect(true);
-        DataManager.Instance.Load();
+        UserService.Instance.OnCreateCharacter = OnCharacterCreate;
     }
 
 
@@ -69,7 +69,12 @@ public class UICharacterSelect : MonoBehaviour
 
     public void OnClickCreate()
     {
-
+        if (string.IsNullOrEmpty(this.charName.text))
+        {
+            MessageBox.Show("请输入用户名");
+            return;
+        }
+        UserService.Instance.SendCharacterCreate(charName.text, charClass);
     }
 
     public void OnSelectClass(int charClass)
@@ -94,10 +99,11 @@ public class UICharacterSelect : MonoBehaviour
         if (result == Result.Success)
         {
             InitCharacterSelect(true);
-
         }
         else
+        {
             MessageBox.Show(message, "错误", MessageBoxType.Error);
+        }
     }
 
     public void OnSelectCharacter(int idx)
@@ -108,6 +114,7 @@ public class UICharacterSelect : MonoBehaviour
         User.Instance.CurrentCharacter = cha;
         characterView.CurrentCharacter = idx;
     }
+
     public void OnClickPlay()
     {
         if (selectCharacterIdx >= 0)

@@ -2955,6 +2955,21 @@ PrefabInstance:
       propertyPath: m_Text
       value: "\u8F93\u5165\u89D2\u8272\u540D..."
       objectReference: {fileID: 0}
+    - target: {fileID: 114989462767612766, guid: 3666ca0b4626c8e4884cb92e30db0da6,
+        type: 3}
+      propertyPath: m_ContentType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989462767612766, guid: 3666ca0b4626c8e4884cb92e30db0da6,
+        type: 3}
+      propertyPath: m_KeyboardType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114989462767612766, guid: 3666ca0b4626c8e4884cb92e30db0da6,
+        type: 3}
+      propertyPath: m_CharacterValidation
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224248006884404312, guid: 3666ca0b4626c8e4884cb92e30db0da6,
         type: 3}
       propertyPath: m_Pivot.x
