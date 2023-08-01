@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
+
 using SkillBridge.Message;
 using ProtoBuf;
+using Services;
 
 #region 原始代码
 public class LoadingManager : MonoBehaviour
@@ -39,7 +41,7 @@ public class LoadingManager : MonoBehaviour
 
         //Init basic services
         //MapService.Instance.Init();
-        //UserService.Instance.Init();
+        UserService.Instance.Init();
 
 
         // Fake Loading Simulate

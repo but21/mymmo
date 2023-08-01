@@ -148,6 +148,12 @@ namespace Services
         {
             Debug.Log($"OnUserLogin:{response.Result} [{response.Errormsg}]");
 
+            if(response.Result == Result.Success)
+            {
+                // 登录成功逻辑, 将服务器返回的用户信息记录到本地
+                Models.User.Instance.SetupUserInfo(response.Userinfo);
+            }
+
             if(OnLogin != null)
             {
                 OnLogin(response.Result, response.Errormsg);

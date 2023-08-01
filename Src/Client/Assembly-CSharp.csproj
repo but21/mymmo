@@ -54,27 +54,27 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="E:\tools\VisualStudio\IDE\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
-    <Analyzer Include="E:\programme\unity\unityproject\mymmo\Src\Client\Assets\References\Common.dll" />
-    <Analyzer Include="E:\programme\unity\unityproject\mymmo\Src\Client\Assets\References\log4net.dll" />
-    <Analyzer Include="E:\programme\unity\unityproject\mymmo\Src\Client\Assets\References\Protocol.dll" />
-    <Analyzer Include="E:\programme\unity\unityproject\mymmo\Src\Client\Assets\References\protobuf-net.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\UI\UIMessageBox.cs" />
     <Compile Include="Assets\Scripts\Network\NetClient.cs" />
+    <Compile Include="Assets\Scripts\UI\MessageBox.cs" />
+    <Compile Include="Assets\Scripts\Managers\DataManager.cs" />
+    <Compile Include="Assets\Scripts\Models\User.cs" />
+    <Compile Include="Assets\Scripts\Services\UserService.cs" />
     <Compile Include="Assets\Scripts\Utilities\GameUtil.cs" />
     <Compile Include="Assets\Scripts\Utilities\Singleton.cs" />
     <Compile Include="Assets\Scripts\Utilities\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
-    <Compile Include="Assets\Scripts\Test\NetClientTest.cs" />
-    <Compile Include="Assets\Scripts\LoadingManager.cs" />
-    <Compile Include="Assets\Scripts\Log\UnityLogger.cs" />
     <Compile Include="Assets\Scripts\UI\UIRegister.cs" />
-    <Compile Include="Assets\Scripts\UI\MessageBox.cs" />
-    <Compile Include="Assets\Scripts\UI\UIMessageBox.cs" />
-    <Compile Include="Assets\Scripts\Services\UserService.cs" />
-    <Compile Include="Assets\Scripts\Models\User.cs" />
+    <Compile Include="Assets\Scripts\Test\NetClientTest.cs" />
     <Compile Include="Assets\Scripts\Assets\Resloader.cs" />
+    <Compile Include="Assets\Scripts\Log\UnityLogger.cs" />
     <Compile Include="Assets\Scripts\UI\UILogin.cs" />
+    <Compile Include="Assets\Scripts\LoadingManager.cs" />
+    <Compile Include="Assets\Scripts\UI\UICharacterSelect.cs" />
+    <Compile Include="Assets\Scripts\UI\UICharInfo.cs" />
+    <Compile Include="Assets\Scripts\UI\UICharacterView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\References\Protocol.dll" />

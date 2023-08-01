@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Services;
+using SkillBridge.Message;
 
 public class UILogin : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class UILogin : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        UserService.Instance.OnLogin = OnLogin;
     }
 
     // Update is called once per frame
@@ -36,5 +37,17 @@ public class UILogin : MonoBehaviour
         }
 
         UserService.Instance.SendLogin(Username.text, Password.text);
+    }
+
+    void OnLogin(Result result, string message)
+    {
+        if(result == Result.Success)
+        {
+            SceneManager.Instance.LoadScene("CharSelect");
+        }
+        else
+        {
+            MessageBox.Show(message, "´íÎó", MessageBoxType.Error);
+        }
     }
 }
