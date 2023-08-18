@@ -7,6 +7,7 @@ using Network;
 using UnityEngine;
 
 using SkillBridge.Message;
+using Models;
 
 namespace Services
 {
@@ -22,17 +23,27 @@ namespace Services
         {
             NetClient.Instance.OnConnect += OnGameServerConnect;
             NetClient.Instance.OnDisconnect += OnGameServerDisconnect;
+
             MessageDistributer.Instance.Subscribe<UserRegisterResponse>(this.OnUserRegister);
             MessageDistributer.Instance.Subscribe<UserLoginResponse>(OnUserLogin);
             MessageDistributer.Instance.Subscribe<UserCreateCharacterResponse>(OnUserCreateCharacter);
-
+            MessageDistributer.Instance.Subscribe<UserGameEnterResponse>(OnGameEnter);
+            MessageDistributer.Instance.Subscribe<UserGameLeaveResponse>(OnGameLeave);
+            //MessageDistributer.Instance.Subscribe<MapCharacterEnterResponse>(OnCharacterEnter);
         }
+
+
 
         public void Dispose()
         {
             MessageDistributer.Instance.Unsubscribe<UserRegisterResponse>(this.OnUserRegister);
             MessageDistributer.Instance.Unsubscribe<UserLoginResponse>(OnUserLogin);
             MessageDistributer.Instance.Unsubscribe<UserCreateCharacterResponse>(OnUserCreateCharacter);
+            MessageDistributer.Instance.Unsubscribe<UserGameEnterResponse>(OnGameEnter);
+            MessageDistributer.Instance.Unsubscribe<UserGameLeaveResponse>(OnGameLeave);
+            //MessageDistributer.Instance.Unsubscribe<MapCharacterEnterResponse>(OnCharacterEnter);
+
+
             NetClient.Instance.OnConnect -= OnGameServerConnect;
             NetClient.Instance.OnDisconnect -= OnGameServerDisconnect;
         }
@@ -147,16 +158,32 @@ namespace Services
             message.Request.createChar.Name = charName;
             message.Request.createChar.Class = characterClass;
 
-            if(connected && NetClient.Instance.Connected)
+            if (connected && NetClient.Instance.Connected)
             {
                 pendingMessage = null;
                 NetClient.Instance.SendMessage(message);
             }
-            else
-            {
-                pendingMessage = message;
-                ConnectToServer();
-            }
+
+        }
+
+        public void SendGameEnter(int characterIndex)
+        {
+            Debug.Log($"UserGameEnterRequest::characterId :{characterIndex}");
+
+            NetMessage message = new NetMessage();
+            message.Request = new NetMessageRequest();
+            message.Request.gameEnter = new UserGameEnterRequest();
+            message.Request.gameEnter.characterIdx = characterIndex;
+            NetClient.Instance.SendMessage(message);
+        }
+
+        public void SendGameLeave()
+        {
+            Debug.Log("UserGameLeaveRequest");
+            NetMessage message = new NetMessage();
+            message.Request = new NetMessageRequest();
+            message.Request.gameLeave = new UserGameLeaveRequest();
+            NetClient.Instance.SendMessage(message);
         }
 
         void OnUserRegister(object sender, UserRegisterResponse response)
@@ -189,16 +216,39 @@ namespace Services
         {
             Debug.Log($"OnCharacterCreate:{response.Result} [{response.Errormsg}]");
 
-            if(response.Result == Result.Success)
+            if (response.Result == Result.Success)
             {
                 Models.User.Instance.Info.Player.Characters.Clear();
                 Models.User.Instance.Info.Player.Characters.AddRange(response.Characters);
             }
 
-            if(OnCreateCharacter != null)
+            if (OnCreateCharacter != null)
             {
                 OnCreateCharacter(response.Result, response.Errormsg);
             }
         }
+
+        void OnGameEnter(object sender, UserGameEnterResponse response)
+        {
+            Debug.LogFormat($"OnGameEnter::{response.Result}, {response.Errormsg}");
+
+            if(response.Result == Result.Success)
+            {
+
+            }
+        }
+
+        private void OnGameLeave(object sender, UserGameLeaveResponse response)
+        {
+            Debug.Log($"OnGameLeave::{response.Result}, {response.Errormsg}");
+        }
+
+        //private void OnCharacterEnter(object sender, MapCharacterEnterResponse response)
+        //{
+        //    Debug.Log($"MapCharacterEnterResponse::mapId{response.mapId}");
+        //    NCharacterInfo info = response.Characters[0];
+        //    User.Instance.CurrentCharacter = info;
+        //    SceneManager.Instance.LoadScene(DataManager.Instance.Maps[response.mapId].Resource);
+        //}
     }
 }

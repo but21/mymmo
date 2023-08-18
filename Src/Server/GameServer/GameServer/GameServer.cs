@@ -11,6 +11,7 @@ using System.Threading;
 
 using Network;
 using GameServer.Services;
+using GameServer.Managers;
 
 namespace GameServer
 {
@@ -21,17 +22,21 @@ namespace GameServer
         NetService network;
         public bool Init()
         {
+            int port = Properties.Settings.Default.ServerPort;
+
             // 服务端的监听
             network = new NetService();
-            network.Init(8000);
+            network.Init(port);
 
             HelloWorldService.Instance.Init();
-
-            UserService.Instance.Init();
             DBService.Instance.Init();
+            DataManager.Instance.Load();
+            MapService.Instance.Init();
+            UserService.Instance.Init();
             thread = new Thread(new ThreadStart(this.Update));
+
             return true;
-}
+        }
 
         public void Start()
         {
