@@ -16,8 +16,7 @@ namespace GameServer.Services
     {
         public MapService()
         {
-          //  MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<MapCharacterEnterRequest>(this.OnMapCharacterEnter);
-
+            MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<MapEntitySyncRequest>(OnMapEntitySync);
         }
 
         public void Init()
@@ -25,5 +24,22 @@ namespace GameServer.Services
             MapManager.Instance.Init();
         }
 
+        private void OnMapEntitySync(NetConnection<NetSession> sender, MapEntitySyncRequest request)
+        {
+            Character character = sender.Session.Character;
+            Log.InfoFormat($"OnMapEntitySync: characterID:{character.Id}:{character.Info.Name} EntityID:{request.entitySync.Id} Event:{request.entitySync.Event} Entity:{request.entitySync.Entity.String()}");
+            MapManager.Instance[character.Info.mapId].UpdateEntity(request.entitySync);
+        }
+
+        internal void SendEntityUpdate(NetConnection<NetSession> connection, NEntitySync entity)
+        {
+            NetMessage message = new NetMessage();
+            message.Response = new NetMessageResponse();
+            message.Response.mapEntitySync = new MapEntitySyncResponse();
+            message.Response.mapEntitySync.entitySyncs.Add(entity);
+
+            byte[] data = PackageHandler.PackMessage(message);
+            connection.SendData(data, 0, data.Length);
+        }
     }
 }

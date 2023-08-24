@@ -8,13 +8,14 @@ using SkillBridge.Message;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Services
+namespace Managers
 {
     class CharacterManager : Singleton<CharacterManager>, IDisposable
     {
         public Dictionary<int, Character> Characters = new Dictionary<int, Character>();
 
         public UnityAction<Character> OnCharacterEnter;
+        public UnityAction<Character> OnCharacterLeave;
 
         public CharacterManager()
         {
@@ -31,6 +32,11 @@ namespace Services
         }
         public void Clear()
         {
+            int[] keys = Characters.Keys.ToArray();
+            foreach (var key in keys)
+            {
+                RemoveCharacter(key);
+            }
             Characters.Clear();
         }
 
@@ -39,16 +45,26 @@ namespace Services
             Debug.Log($"AddCharacter: {cha.Id}: {cha.Name} Map: {cha.mapId} Entity: {cha.Entity.String()}");
             Character character = new Character(cha);
             Characters[cha.Id] = character;
+            EntityManager.Instance.AddEntity(character);
 
-            if(OnCharacterEnter != null)
+            if (OnCharacterEnter != null)
             {
                 OnCharacterEnter(character);
             }
         }
 
-        public void RemoveCharacter(int  characterId)
+        public void RemoveCharacter(int characterId)
         {
-            Characters.Remove(characterId);
+            Debug.Log($"RemoveCharacter:{characterId}");
+            if (Characters.ContainsKey(characterId))
+            {
+                EntityManager.Instance.RemoveEntity(Characters[characterId].Info.Entity);
+                if (OnCharacterLeave != null)
+                {
+                    OnCharacterLeave(Characters[characterId]);
+                }
+                Characters.Remove(characterId);
+            }
         }
 
     }

@@ -8,6 +8,7 @@ using System.IO;
 using SkillBridge.Message;
 using ProtoBuf;
 using Services;
+using Managers;
 
 #region 原始代码
 public class LoadingManager : MonoBehaviour

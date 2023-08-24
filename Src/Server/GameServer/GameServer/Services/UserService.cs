@@ -124,16 +124,25 @@ namespace GameServer.Services
                 MapPosZ = 820,
             };
 
-            DBService.Instance.Entities.Characters.Add(character);
+            character = DBService.Instance.Entities.Characters.Add(character);
             sender.Session.User.Player.Characters.Add(character);
             DBService.Instance.Entities.SaveChanges();
 
             NetMessage message = new NetMessage();
             message.Response = new NetMessageResponse();
             message.Response.createChar = new UserCreateCharacterResponse();
-
             message.Response.createChar.Result = Result.Success;
             message.Response.createChar.Errormsg = "None";
+
+            foreach (var c in sender.Session.User.Player.Characters)
+            {
+                NCharacterInfo info = new NCharacterInfo();
+                info.Id = c.ID;
+                info.Name = c.Name;
+                info.Class = (CharacterClass)c.Class;
+                info.Tid = c.TID;
+                message.Response.createChar.Characters.Add(info);
+            }
 
             byte[] data = PackageHandler.PackMessage(message);
             sender.SendData(data, 0, data.Length);
@@ -160,10 +169,22 @@ namespace GameServer.Services
 
         private void OnGameLeave(NetConnection<NetSession> sender, UserGameLeaveRequest request)
         {
+            // 从本地存储获取角色
             Character character = sender.Session.Character;
-            Log.InfoFormat($"UserGameLeaveRequeset: CharacterID:{character.Id}:{character.Info.Name} Map: {character.Info.mapId}");
-
+            Log.Info($"UserGameLeaveRequest:characterID: {character.Id}:{character.Info.Name} Map:{character.Info.mapId}");
+            // 从角色管理器中把角色移除掉
             CharacterManager.Instance.RemoveCharacter(character.Id);
+            // 角色离开地图
+            MapManager.Instance[character.Info.mapId].CharacterLeave(character.Info);
+
+            NetMessage message = new NetMessage();
+            message.Response = new NetMessageResponse();
+            message.Response.gameLeave = new UserGameLeaveResponse();
+            message.Response.gameLeave.Result = Result.Success;
+            message.Response.gameLeave.Errormsg = "None";
+
+            byte[] data = PackageHandler.PackMessage(message);
+            sender.SendData(data, 0, data.Length);
         }
     }
 }

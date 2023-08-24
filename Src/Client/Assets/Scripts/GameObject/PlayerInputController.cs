@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Entities;
+﻿using Entities;
+using Managers;
+using Services;
 using SkillBridge.Message;
+using UnityEngine;
 
 public class PlayerInputController : MonoBehaviour
 {
@@ -128,6 +128,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (entityController != null)
             entityController.OnEntityEvent(entityEvent);
+        MapService.Instance.SendMapEntitySync(entityEvent, character.EntityData);
     }
 
 

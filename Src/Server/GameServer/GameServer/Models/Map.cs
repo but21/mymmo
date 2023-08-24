@@ -11,6 +11,7 @@ using Common.Data;
 using Network;
 using GameServer.Managers;
 using GameServer.Entities;
+using GameServer.Services;
 
 namespace GameServer.Models
 {
@@ -87,6 +88,46 @@ namespace GameServer.Models
 
             byte[] data = PackageHandler.PackMessage(message);
             conn.SendData(data, 0, data.Length);
+        }
+
+        internal void CharacterLeave(NCharacterInfo characterInfo)
+        {
+            Log.InfoFormat($"CharacterLeave: Map:{Define.ID} characterID:{characterInfo.Id}");
+            MapCharacters.Remove(characterInfo.Id);
+
+            foreach (var kv in MapCharacters)
+            {
+                SendCharacterLeaveMap(kv.Value.connection, characterInfo);
+            }
+        }
+
+        private void SendCharacterLeaveMap(NetConnection<NetSession> connection, NCharacterInfo characterInfo)
+        {
+            NetMessage message = new NetMessage();
+            message.Response = new NetMessageResponse();
+            message.Response.mapCharacterLeave = new MapCharacterLeaveResponse();
+            message.Response.mapCharacterLeave.characterId = characterInfo.Id;
+
+            byte[] data = PackageHandler.PackMessage(message);
+            connection.SendData(data, 0, data.Length);
+        }
+
+
+        internal void UpdateEntity(NEntitySync entity)
+        {
+            foreach (var kv in MapCharacters)
+            {
+                if(kv.Value.character.entityId == entity.Id)
+                {
+                    kv.Value.character.Position = entity.Entity.Position;
+                    kv.Value.character.Direction = entity.Entity.Direction;
+                    kv.Value.character.Speed = entity.Entity.Speed;
+                }
+                else
+                {
+                    MapService.Instance.SendEntityUpdate(kv.Value.connection, entity);
+                }
+            }
         }
     }
 }

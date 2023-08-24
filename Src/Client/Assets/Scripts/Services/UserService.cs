@@ -32,8 +32,6 @@ namespace Services
             //MessageDistributer.Instance.Subscribe<MapCharacterEnterResponse>(OnCharacterEnter);
         }
 
-
-
         public void Dispose()
         {
             MessageDistributer.Instance.Unsubscribe<UserRegisterResponse>(this.OnUserRegister);
@@ -238,8 +236,9 @@ namespace Services
             }
         }
 
-        private void OnGameLeave(object sender, UserGameLeaveResponse response)
+        void OnGameLeave(object sender, UserGameLeaveResponse response)
         {
+            MapService.Instance.CurrentMapId = 0;
             Debug.Log($"OnGameLeave::{response.Result}, {response.Errormsg}");
         }
 

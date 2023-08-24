@@ -15,7 +15,7 @@ public class UINameBar : MonoBehaviour
     {
         if (character != null)
         {
-            //UpdateInfo();
+            UpdateInfo();
         }
     }
 

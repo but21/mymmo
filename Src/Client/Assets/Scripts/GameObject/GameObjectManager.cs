@@ -6,26 +6,45 @@ using Entities;
 using Services;
 using SkillBridge.Message;
 using Models;
+using Managers;
 
-public class GameObjectManager : MonoBehaviour
+public class GameObjectManager : MonoSingleton<GameObjectManager>
 {
     Dictionary<int, GameObject> Characters = new Dictionary<int, GameObject>();
 
-    private void Start()
+    protected override void OnStart()
     {
         StartCoroutine(InitGameObjects());
-        CharacterManager.Instance.OnCharacterEnter = OnCharacterEnter;
+        CharacterManager.Instance.OnCharacterEnter += OnCharacterEnter;
+        CharacterManager.Instance.OnCharacterLeave += OnCharacterLeave;
     }
-
 
     private void OnDestroy()
     {
-        CharacterManager.Instance.OnCharacterEnter = null;
+        CharacterManager.Instance.OnCharacterEnter -= OnCharacterEnter;
+        CharacterManager.Instance.OnCharacterLeave -= OnCharacterLeave;
     }
 
-    void OnCharacterEnter(Character cha)
+    void OnCharacterEnter(Character character)
     {
-        CreateCharacterObject(cha);
+        CreateCharacterObject(character);
+    }
+
+    private void OnCharacterLeave(Character character)
+    {
+        // 判断需要销毁的角色是否存在
+        if (!Characters.ContainsKey(character.entityId))
+        {
+            return;
+        }
+
+        // 角色没有被其他方式销毁, 将其销毁并移除
+        if (Characters[character.entityId] != null)
+        {
+            Destroy(Characters[character.entityId]);
+            Characters.Remove(character.entityId);
+        }
+
     }
 
     IEnumerator InitGameObjects()
@@ -39,7 +58,7 @@ public class GameObjectManager : MonoBehaviour
 
     private void CreateCharacterObject(Character character)
     {
-        if (!Characters.ContainsKey(character.Info.Id) || Characters[character.Info.Id] == null)
+        if (!Characters.ContainsKey(character.entityId) || Characters[character.entityId] == null)
         {
             Object obj = Resloader.Load<Object>(character.Define.Resource);
             if (obj == null)
@@ -47,37 +66,44 @@ public class GameObjectManager : MonoBehaviour
                 Debug.LogFormat($"Character:[{character.Define.TID}] Resource:[{character.Define.Resource}] not existed");
                 return;
             }
-            GameObject go = (GameObject)Instantiate(obj);
+            GameObject go = (GameObject)Instantiate(obj, this.transform);
             go.name = "Character_" + character.Info.Id + "_" + character.Info.Name;
-            go.transform.position = GameObjectTool.LogicToWorld(character.position);
-            go.transform.forward = GameObjectTool.LogicToWorld(character.direction);
-            Characters[character.Info.Id] = go;
 
-            EntityController entityController = go.GetComponent<EntityController>();
-            if (entityController != null)
-            {
-                entityController.entity = character;
-                entityController.isPlayer = character.IsPlayer;
-            }
-
-            PlayerInputController playerInputController = go.GetComponent<PlayerInputController>();
-            if (playerInputController != null)
-            {
-                if (character.Info.Id == Models.User.Instance.CurrentCharacter.Id)
-                {
-                    MainPlayerCamera.Instance.player = go;
-                    playerInputController.enabled = true;
-                    playerInputController.character = character;
-                    playerInputController.entityController = entityController;
-                }
-                else
-                {
-                    playerInputController.enabled = false;
-                }
-            }
+            Characters[character.entityId] = go;
 
             UIWorldElementManager.Instance.AddCharacterNameBar(go.transform, character);
         }
+        InitGameObject(Characters[character.entityId], character);
+    }
+
+    private void InitGameObject(GameObject go, Character character)
+    {
+        go.transform.position = GameObjectTool.LogicToWorld(character.position);
+        go.transform.forward = GameObjectTool.LogicToWorld(character.direction);
+        EntityController entityController = go.GetComponent<EntityController>();
+        if (entityController != null)
+        {
+            entityController.entity = character;
+            entityController.isPlayer = character.IsPlayer;
+        }
+
+        PlayerInputController playerInputController = go.GetComponent<PlayerInputController>();
+        if (playerInputController != null)
+        {
+            if (character.entityId == User.Instance.CurrentCharacter.Entity.Id)
+            {
+                User.Instance.CurrentCharacterObject = go;
+                MainPlayerCamera.Instance.player = go;
+                playerInputController.enabled = true;
+                playerInputController.character = character;
+                playerInputController.entityController = entityController;
+            }
+            else
+            {
+                playerInputController.enabled = false;
+            }
+        }
+
     }
 
     #region 原始代码
