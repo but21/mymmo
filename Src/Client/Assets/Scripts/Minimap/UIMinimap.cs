@@ -24,6 +24,10 @@ public class UIMinimap : MonoBehaviour
 
     void Update()
     {
+        if (_playerTransform == null)
+        {
+            _playerTransform = MinimapManager.Instance.PlayerTransform;
+        }
         if (MinimapBoundingBox == null || _playerTransform == null) return;
 
         // 获取真实地图的宽度和高度
@@ -42,7 +46,6 @@ public class UIMinimap : MonoBehaviour
         Minimap.rectTransform.localPosition = Vector2.zero;
         Arrow.transform.eulerAngles = new Vector3(0, 0, -_playerTransform.eulerAngles.y);
 
-        _playerTransform = User.Instance.CurrentCharacterObject.transform;
 
     }
 
@@ -53,7 +56,7 @@ public class UIMinimap : MonoBehaviour
         if (Minimap.overrideSprite == null)
         {
             // 加载小地图图片
-            Minimap.overrideSprite = MinimapManager.Instance.LoadMinimap();
+            Minimap.overrideSprite = MinimapManager.Instance.LoadCurrentMinimap();
         }
         Minimap.SetNativeSize();
         // 将小地图位置设置为原点

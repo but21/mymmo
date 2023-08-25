@@ -7,18 +7,20 @@ namespace Managers
 {
     public class MinimapManager : Singleton<MinimapManager>
     {
-        void Start()
+        public Transform PlayerTransform
         {
-
-        }
-
-        void Update()
-        {
-
+            get
+            {
+                if(User.Instance.CurrentCharacterObject == null)
+                {
+                    return null;
+                }
+                return User.Instance.CurrentCharacterObject.transform;
+            }
         }
 
         // 加载当前地图的小地图
-        public Sprite LoadMinimap()
+        public Sprite LoadCurrentMinimap()
         {
             Debug.Log($"User.Instance.CurrentMapData.Minimap:{User.Instance.CurrentMapData.Minimap}");
             return Resloader.Load<Sprite>("UI/Minimap/" + User.Instance.CurrentMapData.Minimap);

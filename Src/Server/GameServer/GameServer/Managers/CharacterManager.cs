@@ -37,6 +37,7 @@ namespace GameServer.Managers
         {
             Character character = new Character(CharacterType.Player, tCharacter);
             EntityManager.Instance.AddEntity(tCharacter.MapID, character);
+            character.Info.Id = character.entityId;
             Characters[character.entityId] = character;
             return character;
         }

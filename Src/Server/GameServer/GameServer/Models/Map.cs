@@ -90,23 +90,24 @@ namespace GameServer.Models
             conn.SendData(data, 0, data.Length);
         }
 
-        internal void CharacterLeave(NCharacterInfo characterInfo)
+        internal void CharacterLeave(Character character)
         {
-            Log.InfoFormat($"CharacterLeave: Map:{Define.ID} characterID:{characterInfo.Id}");
-            MapCharacters.Remove(characterInfo.Id);
+            Log.InfoFormat($"CharacterLeave: Map:{Define.ID} characterID:{character.Id}");
 
             foreach (var kv in MapCharacters)
             {
-                SendCharacterLeaveMap(kv.Value.connection, characterInfo);
+                SendCharacterLeaveMap(kv.Value.connection, character);
             }
+
+            MapCharacters.Remove(character.Id);
         }
 
-        private void SendCharacterLeaveMap(NetConnection<NetSession> connection, NCharacterInfo characterInfo)
+        private void SendCharacterLeaveMap(NetConnection<NetSession> connection, Character character)
         {
             NetMessage message = new NetMessage();
             message.Response = new NetMessageResponse();
             message.Response.mapCharacterLeave = new MapCharacterLeaveResponse();
-            message.Response.mapCharacterLeave.characterId = characterInfo.Id;
+            message.Response.mapCharacterLeave.characterId = character.Id;
 
             byte[] data = PackageHandler.PackMessage(message);
             connection.SendData(data, 0, data.Length);
@@ -117,7 +118,7 @@ namespace GameServer.Models
         {
             foreach (var kv in MapCharacters)
             {
-                if(kv.Value.character.entityId == entity.Id)
+                if (kv.Value.character.entityId == entity.Id)
                 {
                     kv.Value.character.Position = entity.Entity.Position;
                     kv.Value.character.Direction = entity.Entity.Direction;

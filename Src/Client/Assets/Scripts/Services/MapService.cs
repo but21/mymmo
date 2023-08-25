@@ -43,7 +43,7 @@ namespace Services
             Debug.Log($"OnMapCharacterEnter::mapId:{response.mapId}, count:{response.Characters.Count}");
             foreach (var character in response.Characters)
             {
-                if (character.Id == User.Instance.CurrentCharacter.Id)
+                if (User.Instance.CurrentCharacter ==null || character.Id == User.Instance.CurrentCharacter.Id)
                 {
                     // 刷新本地数据
                     User.Instance.CurrentCharacter = character;

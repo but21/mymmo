@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using SkillBridge.Message;
+using Common;
 
 namespace Entities
 {
@@ -20,14 +21,18 @@ namespace Entities
         private NEntity entityData;
         public NEntity EntityData
         {
-            get {
+            get
+            {
+                UpdateEntityData();
                 return entityData;
             }
-            set {
+            set
+            {
                 entityData = value;
                 this.SetEntityData(value);
             }
         }
+
 
         public Entity(NEntity entity)
         {
@@ -53,6 +58,13 @@ namespace Entities
             this.position = this.position.FromNVector3(entity.Position);
             this.direction = this.direction.FromNVector3(entity.Direction);
             this.speed = entity.Speed;
+        }
+
+        private void UpdateEntityData()
+        {
+            entityData.Position.FromVector3Int(this.position);
+            entityData.Direction.FromVector3Int(direction);
+            entityData.Speed = speed;
         }
     }
 }
