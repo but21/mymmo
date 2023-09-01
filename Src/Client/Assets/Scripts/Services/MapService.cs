@@ -22,8 +22,6 @@ namespace Services
             MessageDistributer.Instance.Subscribe<MapEntitySyncResponse>(OnMapEntitySync);
         }
 
-
-
         public int CurrentMapId = 0;
 
         public void Dispose()
@@ -43,7 +41,7 @@ namespace Services
             Debug.Log($"OnMapCharacterEnter::mapId:{response.mapId}, count:{response.Characters.Count}");
             foreach (var character in response.Characters)
             {
-                if (User.Instance.CurrentCharacter ==null || character.Id == User.Instance.CurrentCharacter.Id)
+                if (User.Instance.CurrentCharacter == null || character.Id == User.Instance.CurrentCharacter.Id)
                 {
                     // 刷新本地数据
                     User.Instance.CurrentCharacter = character;
@@ -99,12 +97,23 @@ namespace Services
             NetClient.Instance.SendMessage(message);
         }
 
-        private void OnMapEntitySync(object sender, MapEntitySyncResponse response) 
+        private void OnMapEntitySync(object sender, MapEntitySyncResponse response)
         {
             foreach (var entity in response.entitySyncs)
             {
                 EntityManager.Instance.OnEntitySync(entity);
             }
         }
+
+        internal void SendMapTeleporter(int teleporterID)
+        {
+            Debug.LogFormat($"MapTeleporterRequest :teleporterID:{teleporterID}");
+            NetMessage message = new NetMessage();
+            message.Request = new NetMessageRequest();
+            message.Request.mapTeleport = new MapTeleportRequest();
+            message.Request.mapTeleport.teleporterId = teleporterID;
+            NetClient.Instance.SendMessage(message);
+        }
+
     }
 }

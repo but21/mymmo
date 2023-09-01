@@ -175,10 +175,7 @@ namespace GameServer.Services
             // 从本地存储获取角色
             Character character = sender.Session.Character;
             Log.Info($"UserGameLeaveRequest:characterID: {character.Id}:{character.Info.Name} Map:{character.Info.mapId}");
-            // 从角色管理器中把角色移除掉
-            CharacterManager.Instance.RemoveCharacter(character.Id);
-            // 角色离开地图
-            MapManager.Instance[character.Info.mapId].CharacterLeave(character);
+            CharacterLeave(character);
 
             NetMessage message = new NetMessage();
             message.Response = new NetMessageResponse();
@@ -188,6 +185,14 @@ namespace GameServer.Services
 
             byte[] data = PackageHandler.PackMessage(message);
             sender.SendData(data, 0, data.Length);
+        }
+
+        internal void CharacterLeave(Character character)
+        {
+            // 从角色管理器中把角色移除掉
+            CharacterManager.Instance.RemoveCharacter(character.Id);
+            // 角色离开地图
+            MapManager.Instance[character.Info.mapId].CharacterLeave(character);
         }
     }
 }

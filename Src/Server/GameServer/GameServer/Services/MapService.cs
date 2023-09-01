@@ -17,13 +17,16 @@ namespace GameServer.Services
         public MapService()
         {
             MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<MapEntitySyncRequest>(OnMapEntitySync);
+            MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<MapTeleportRequest>(OnMapTeleport);
         }
+
+
 
         public void Init()
         {
             MapManager.Instance.Init();
         }
-
+            
         private void OnMapEntitySync(NetConnection<NetSession> sender, MapEntitySyncRequest request)
         {
             Character character = sender.Session.Character;
@@ -40,6 +43,32 @@ namespace GameServer.Services
 
             byte[] data = PackageHandler.PackMessage(message);
             connection.SendData(data, 0, data.Length);
+        }
+
+        private void OnMapTeleport(NetConnection<NetSession> sender, MapTeleportRequest request)
+        {
+            Character character = sender.Session.Character;
+            Log.InfoFormat($"OnMapTeleport: characterID:[{character.Id}:{character.Data}] TeleporterID:{request.teleporterId}");
+
+            if (!DataManager.Instance.Teleporters.ContainsKey(request.teleporterId))
+            {
+                Log.Warning($"Source TeleporterID:[{request.teleporterId} not existed]");
+                return;
+            }
+
+            TeleporterDefine source = DataManager.Instance.Teleporters[request.teleporterId];
+           if(source.LinkTo == 0 || !DataManager.Instance.Teleporters.ContainsKey(source.LinkTo))
+            {
+                Log.Warning($"Source TeleporterID : [{request.teleporterId}] LinkTo ID:[{source.LinkTo}] not existed!");
+                return;
+            }
+
+            TeleporterDefine target = DataManager.Instance.Teleporters[source.LinkTo];
+
+            MapManager.Instance[source.MapID].CharacterLeave(character);
+            character.Position = target.Position;
+            character.Direction = target.Direction;
+            MapManager.Instance[target.MapID].CharacterEnter(sender, character);
         }
     }
 }

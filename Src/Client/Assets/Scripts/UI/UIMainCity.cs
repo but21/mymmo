@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Models;
 
-public class UIMainCity : MonoBehaviour
+public class UIMainCity : MonoSingleton<UIMainCity>
 {
     public Text Name;
     public Text Level;
 
-    void Start()
+    protected override void OnStart()
     {
         UpdateAvatar();
     }
