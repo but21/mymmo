@@ -56,9 +56,12 @@
     <Analyzer Include="E:\tools\VisualStudio\IDE\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\UI\UITest.cs" />
     <Compile Include="Assets\Scripts\Managers\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\GameObject\PlayerInputController.cs" />
+    <Compile Include="Assets\Scripts\GameObject\MapController.cs" />
     <Compile Include="Assets\Scripts\GameObject\GameObjectTool.cs" />
+    <Compile Include="Assets\Scripts\UI\UIWindow.cs" />
     <Compile Include="Assets\Scripts\UI\UIWorldElement.cs" />
     <Compile Include="Assets\Scripts\GameObject\EntityController.cs" />
     <Compile Include="Assets\Scripts\UI\UIMessageBox.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="Assets\Scripts\UI\UICharacterView.cs" />
     <Compile Include="Assets\Scripts\UI\UIRegister.cs" />
     <Compile Include="Assets\Scripts\Test\NetClientTest.cs" />
+    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UI\UINameBar.cs" />
     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
     <Compile Include="Assets\Scripts\Assets\Resloader.cs" />
@@ -88,10 +92,13 @@
     <Compile Include="Assets\Scripts\Entities\Character.cs" />
     <Compile Include="Assets\Scripts\UI\UILogin.cs" />
     <Compile Include="Assets\Scripts\LoadingManager.cs" />
-    <Compile Include="Assets\Scripts\UI\UIMainCity.cs" />
+    <Compile Include="Assets\Scripts\UI\UIMain.cs" />
     <Compile Include="Assets\Scripts\Managers\MinimapManager.cs" />
     <Compile Include="Assets\Scripts\GameObject\TeleporterObject.cs" />
     <Compile Include="Assets\Scripts\Minimap\UIMinimap.cs" />
+    <Compile Include="Assets\Scripts\GameObject\NpcController.cs" />
+    <Compile Include="Assets\Scripts\Managers\NpcManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\TestManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\References\Protocol.dll" />

@@ -19,7 +19,8 @@ public class UIMinimap : MonoBehaviour
     private Transform _playerTransform;
     void Start()
     {
-        InitMap();
+        MinimapManager.Instance.minimap = this;
+        UpdateMap();
     }
 
     void Update()
@@ -49,20 +50,23 @@ public class UIMinimap : MonoBehaviour
 
     }
 
-    void InitMap()
+    public void UpdateMap()
     {
         // 设置小地图名
         MapName.text = User.Instance.CurrentMapData.Name;
-        if (Minimap.overrideSprite == null)
-        {
-            // 加载小地图图片
-            Minimap.overrideSprite = MinimapManager.Instance.LoadCurrentMinimap();
-        }
+
+        // 加载小地图图片
+        Minimap.overrideSprite = MinimapManager.Instance.LoadCurrentMinimap();
         Minimap.SetNativeSize();
+
         // 将小地图位置设置为原点
         Minimap.transform.localPosition = Vector3.zero;
-        // 角色Transform赋值
-        //_playerTransform = User.Instance.CurrentCharacterObject.transform;
+
+        // 更新包围盒
+        MinimapBoundingBox = MinimapManager.Instance.MinimapBoundingBox;
+
+        // 更新角色位置信息, 以更新角色光标在小地图中的位置
+        _playerTransform = null;
 
     }
 }

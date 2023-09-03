@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Models;
 
-public class UIMainCity : MonoSingleton<UIMainCity>
+// 主UI, 进入地图后一直存在的UI, 如角色血条, 地图等
+public class UIMain : MonoSingleton<UIMain>
 {
     public Text Name;
     public Text Level;
@@ -29,5 +30,17 @@ public class UIMainCity : MonoSingleton<UIMainCity>
     {
         SceneManager.Instance.LoadScene("CharSelect");
         Services.UserService.Instance.SendGameLeave();
+    }
+
+    public void OnClickTest()
+    {
+        UITest test = UIManager.Instance.Show<UITest>();
+        test.SetTitle("UITest");
+        test.OnClose += Test_OnClose;
+    }
+
+    private void Test_OnClose(UIWindow sender, UIWindow.WindowResult result)
+    {
+        MessageBox.Show($"result:{result}");
     }
 }
