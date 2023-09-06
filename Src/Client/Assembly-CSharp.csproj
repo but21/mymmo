@@ -76,8 +76,10 @@
     <Compile Include="Assets\Scripts\Utilities\Singleton.cs" />
     <Compile Include="Assets\Scripts\Managers\EntityManager.cs" />
     <Compile Include="Assets\Scripts\Utilities\MonoSingleton.cs" />
+    <Compile Include="Assets\Scripts\Managers\TestManager.cs" />
     <Compile Include="Assets\Scripts\UI\UICharacterSelect.cs" />
     <Compile Include="Assets\Scripts\Scene\SceneManager.cs" />
+    <Compile Include="Assets\Scripts\GameObject\NpcController.cs" />
     <Compile Include="Assets\Scripts\UI\UIWorldElementManager.cs" />
     <Compile Include="Assets\Scripts\GameObject\MainPlayerCamera.cs" />
     <Compile Include="Assets\Scripts\Services\MapService.cs" />
@@ -95,10 +97,10 @@
     <Compile Include="Assets\Scripts\UI\UIMain.cs" />
     <Compile Include="Assets\Scripts\Managers\MinimapManager.cs" />
     <Compile Include="Assets\Scripts\GameObject\TeleporterObject.cs" />
-    <Compile Include="Assets\Scripts\Minimap\UIMinimap.cs" />
-    <Compile Include="Assets\Scripts\GameObject\NpcController.cs" />
     <Compile Include="Assets\Scripts\Managers\NpcManager.cs" />
-    <Compile Include="Assets\Scripts\Managers\TestManager.cs" />
+    <Compile Include="Assets\Scripts\Minimap\UIMinimap.cs" />
+    <Compile Include="Assets\Scripts\Entities\Item.cs" />
+    <Compile Include="Assets\Scripts\Managers\ItemManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\References\Protocol.dll" />
