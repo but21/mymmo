@@ -127,6 +127,12 @@ namespace GameServer.Services
                 MapPosZ = 820,
             };
 
+            var bag = new TCharacterBag();
+            bag.Owner = character;
+            bag.Items = new byte[0];
+            bag.Unlocked = 20;
+            character.Bag = DBService.Instance.Entities.CharacterBags.Add(bag);
+
             character = DBService.Instance.Entities.Characters.Add(character);
             sender.Session.User.Player.Characters.Add(character);
             DBService.Instance.Entities.SaveChanges();
@@ -166,16 +172,29 @@ namespace GameServer.Services
 
             message.Response.gameEnter.Character = character.Info;
 
+            // 道具系统测试
             int ItemId = 2;
             bool hasItem = character.ItemManager.HasItem(ItemId);
-            Log.Info($"hasItem:{hasItem}");
-            if (hasItem)
+            //Log.Info($"hasItem:{hasItem}");
+            if (!hasItem)
             {
-                character.ItemManager.RemoveItem(ItemId, 1);
+                //character.ItemManager.RemoveItem(ItemId, 1);
+                character.ItemManager.AddItem(1, 200);
+                character.ItemManager.AddItem(2, 100);
+                character.ItemManager.AddItem(3, 30);
+                character.ItemManager.AddItem(4, 120);
             }
-            character.ItemManager.AddItem(ItemId, 2);
-            Item item = character.ItemManager.GetItem(ItemId);
-            Log.Info($"{ItemId} {item}");
+            //else
+            //{
+
+            //}
+            //Item item = character.ItemManager.GetItem(ItemId);
+            //Log.Info($"{ItemId} {item}");
+            Log.Info($"Item1:{character.ItemManager.GetItem(1)}");
+            Log.Info($"Item2:{character.ItemManager.GetItem(2)}");
+            Log.Info($"Item3:{character.ItemManager.GetItem(3)}");
+            Log.Info($"Item4:{character.ItemManager.GetItem(4)}");
+            DBService.Instance.Save();
 
             byte[] data = PackageHandler.PackMessage(message);
             sender.SendData(data, 0, data.Length);

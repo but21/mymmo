@@ -46,7 +46,6 @@ namespace Managers
             Character character = new Character(cha);
             Characters[cha.Id] = character;
             EntityManager.Instance.AddEntity(character);
-
             if (OnCharacterEnter != null)
             {
                 OnCharacterEnter(character);

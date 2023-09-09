@@ -82,7 +82,7 @@ namespace GameServer.Managers
                 Items.Add(itemId, item);
             }
             Log.Info($"{Owner.Data.ID}AddItem:{item} AddCount:{count}");
-            DBService.Instance.Save();
+            //DBService.Instance.Save();
             return true;
         }
 
@@ -100,7 +100,7 @@ namespace GameServer.Managers
             }
             item.Remove(count);
             Log.Info($"{Owner.Data.ID}RemoveItem:{item} RemoveCount:{count}");
-            DBService.Instance.Save();
+            //   DBService.Instance.Save();
             return true;
         }
 

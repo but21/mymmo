@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Models;
+using UI;
 
 // 主UI, 进入地图后一直存在的UI, 如角色血条, 地图等
 public class UIMain : MonoSingleton<UIMain>
@@ -42,5 +43,10 @@ public class UIMain : MonoSingleton<UIMain>
     private void Test_OnClose(UIWindow sender, UIWindow.WindowResult result)
     {
         MessageBox.Show($"result:{result}");
+    }
+
+    public void OnClickBag()
+    {
+        UIManager.Instance.Show<UIBag>();
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
@@ -18,6 +19,7 @@ public class UIManager : Singleton<UIManager>
     public UIManager()
     {
         UIResources.Add(typeof(UITest), new UIElement() { Resources = "UI/UITest", Cache = true });
+        UIResources.Add(typeof(UIBag), new UIElement() { Resources = "UI/UIBag", Cache = true });
     }
 
     ~UIManager()

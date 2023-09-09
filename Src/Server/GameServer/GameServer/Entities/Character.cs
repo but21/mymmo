@@ -12,13 +12,13 @@ namespace GameServer.Entities
 {
     class Character : CharacterBase
     {
-       
+
         public TCharacter Data;
 
         public ItemManager ItemManager;
 
-        public Character(CharacterType type,TCharacter cha):
-            base(new Core.Vector3Int(cha.MapPosX, cha.MapPosY, cha.MapPosZ),new Core.Vector3Int(100,0,0))
+        public Character(CharacterType type, TCharacter cha) :
+            base(new Core.Vector3Int(cha.MapPosX, cha.MapPosY, cha.MapPosZ), new Core.Vector3Int(100, 0, 0))
         {
             this.Data = cha;
             this.Info = new NCharacterInfo();
@@ -34,6 +34,10 @@ namespace GameServer.Entities
 
             ItemManager = new ItemManager(this);
             ItemManager.GetItemInfos(Info.Items);
+
+            Info.Bag = new NBagInfo();
+            Info.Bag.Items = this.Data.Bag.Items;
+            Info.Bag.Unlocked = Data.Bag.Unlocked;
         }
     }
 }

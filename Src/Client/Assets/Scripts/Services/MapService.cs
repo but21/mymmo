@@ -47,6 +47,7 @@ namespace Services
                     User.Instance.CurrentCharacter = character;
                 }
                 CharacterManager.Instance.AddCharacter(character);
+
             }
             if (CurrentMapId != response.mapId)
             {
