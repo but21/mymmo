@@ -219,6 +219,7 @@ namespace Services
             {
                 Models.User.Instance.Info.Player.Characters.Clear();
                 Models.User.Instance.Info.Player.Characters.AddRange(response.Characters);
+                
             }
 
             if (OnCreateCharacter != null)

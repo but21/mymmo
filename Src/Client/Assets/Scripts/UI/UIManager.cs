@@ -1,3 +1,4 @@
+using Assets.Scripts.UI.Shop;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +20,8 @@ public class UIManager : Singleton<UIManager>
     public UIManager()
     {
         UIResources.Add(typeof(UITest), new UIElement() { Resources = "UI/UITest", Cache = true });
-        UIResources.Add(typeof(UIBag), new UIElement() { Resources = "UI/UIBag", Cache = true });
+        UIResources.Add(typeof(UIBag), new UIElement() { Resources = "UI/UIBag", Cache = false });
+        UIResources.Add(typeof(UIShop), new UIElement() { Resources = "UI/UIShop", Cache = false });
     }
 
     ~UIManager()

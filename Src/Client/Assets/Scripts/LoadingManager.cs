@@ -43,6 +43,7 @@ public class LoadingManager : MonoBehaviour
         //Init basic services
         MapService.Instance.Init();
         UserService.Instance.Init();
+        ShopManager.Instance.Init();
 
         TestManager.Instance.Init();
 

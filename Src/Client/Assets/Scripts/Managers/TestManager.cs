@@ -12,7 +12,7 @@ namespace Managers
     {
         public void Init()
         {
-            NpcManager.Instance.RegisterNpcEvent(NpcDefine.NpcFunction.InvokeShop, OnNpcInvokeShop);
+            //NpcManager.Instance.RegisterNpcEvent(NpcDefine.NpcFunction.InvokeShop, OnNpcInvokeShop);
             NpcManager.Instance.RegisterNpcEvent(NpcDefine.NpcFunction.InvokeInsrance, OnNpcInvokeInsrance);
         }
 

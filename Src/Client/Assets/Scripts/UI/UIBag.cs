@@ -21,6 +21,7 @@ namespace UI
 
         private void Start()
         {
+
             if (slots == null)
             {
                 slots = new List<Image>();
@@ -66,12 +67,14 @@ namespace UI
             {
                 slots[i].color = Color.gray;
             }
+
+            Money.text = User.Instance.CurrentCharacter.Gold.ToString();
+
             yield return null;
         }
 
         public void SetTitle(string title)
         {
-            Money.text = User.Instance.CurrentCharacter.Id.ToString();
         }
 
         public void OnReset()

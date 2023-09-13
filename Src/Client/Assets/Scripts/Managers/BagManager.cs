@@ -25,7 +25,7 @@ namespace Managers
             Unlocked = info.Unlocked;
 
             Items = new BagItem[Unlocked];
-            if(info.Items != null && info.Items.Length >= info.Unlocked)
+            if (info.Items != null && info.Items.Length >= info.Unlocked)
             {
                 Analyze(info.Items);
             }
@@ -87,6 +87,46 @@ namespace Managers
                 }
             }
             return Info;
+        }
+
+        public void AddItem(int itemId, int count)
+        {
+            ushort addCount = (ushort)count;
+            for (int i = 0; i < Items.Length; i++)
+            {
+                if (Items[i].ItemId == itemId)
+                {
+                    ushort canAdd = (ushort)(DataManager.Instance.Items[itemId].StackLimit - Items[i].Count);
+                    if (canAdd >= addCount)
+                    {
+                        Items[i].Count += addCount;
+                        addCount = 0;
+                        return;
+                    }
+                    else
+                    {
+                        Items[i].Count += canAdd;
+                        addCount -= canAdd;
+                    }
+                }
+            }
+            if (addCount > 0)
+            {
+                for (int i = 0; i < Items.Length; i++)
+                {
+                    if (Items[i].ItemId == 0)
+                    {
+                        Items[i].ItemId = (ushort)itemId;
+                        // todo: 未考虑StackLimit
+                        Items[i].Count = addCount;
+                    }
+                }
+            }
+        }
+
+        public void RemoveItem(int itemId, int count)
+        {
+
         }
     }
 }

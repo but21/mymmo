@@ -28,6 +28,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+using GameServer.Network;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -37,7 +38,7 @@ namespace Network
     /// <summary>
     /// A connection to our server.
     /// </summary>
-    public class NetConnection<T>
+    public class NetConnection<T> where T : INetSession
     {
         /// <summary>
         /// Represents a callback used to inform a listener that a ServerConnection has received data.
@@ -91,7 +92,7 @@ namespace Network
                 eventArgs.AcceptSocket = socket;
                 eventArgs.Completed += ReceivedCompleted;
                 eventArgs.UserToken = state;
-                eventArgs.SetBuffer(new byte[64 * 1024],0, 64 * 1024);
+                eventArgs.SetBuffer(new byte[64 * 1024], 0, 64 * 1024);
 
                 BeginReceive(eventArgs);
                 this.session = session;
@@ -110,6 +111,7 @@ namespace Network
                 CloseConnection(eventArgs);
             }
         }
+
 
         /// <summary>
         /// Sends data to the client.
@@ -145,7 +147,11 @@ namespace Network
             }
         }
 
-
+        public void SendResponse()
+        {
+            byte[] data = session.GetResponse();
+            this.SendData(data, 0, data.Length);
+        }
         #endregion
 
 
@@ -226,7 +232,7 @@ namespace Network
         /// <param name="callback">The callback.</param>
         private void OnDataReceived(Byte[] data, IPEndPoint remoteEndPoint, DataReceivedCallback callback)
         {
-            callback(this, new DataEventArgs() { RemoteEndPoint = remoteEndPoint, Data = data, Offset =0, Length = data.Length  });
+            callback(this, new DataEventArgs() { RemoteEndPoint = remoteEndPoint, Data = data, Offset = 0, Length = data.Length });
         }
 
         /// <summary>

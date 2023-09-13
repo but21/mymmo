@@ -51,43 +51,39 @@ namespace GameServer.Models
         /// 角色进入地图
         /// </summary>
         /// <param name="character"></param>
-        internal void CharacterEnter(NetConnection<NetSession> conn, Character character)
+        internal void CharacterEnter(NetConnection<NetSession> sender, Character character)
         {
             Log.InfoFormat("CharacterEnter: Map:{0} characterId:{1}", this.Define.ID, character.Id);
 
             character.Info.mapId = this.ID;
 
-            NetMessage message = new NetMessage();
-            message.Response = new NetMessageResponse();
 
-            message.Response.mapCharacterEnter = new MapCharacterEnterResponse();
-            message.Response.mapCharacterEnter.mapId = this.Define.ID;
-            message.Response.mapCharacterEnter.Characters.Add(character.Info);
 
-            this.MapCharacters[character.Id] = new MapCharacter(conn, character);
+            sender.Session.Response.mapCharacterEnter = new MapCharacterEnterResponse();
+            sender.Session.Response.mapCharacterEnter.mapId = this.Define.ID;
+            sender.Session.Response.mapCharacterEnter.Characters.Add(character.Info);
+
+            this.MapCharacters[character.Id] = new MapCharacter(sender, character);
 
             foreach (var kv in this.MapCharacters)
             {
-                message.Response.mapCharacterEnter.Characters.Add(kv.Value.character.Info);
+                sender.Session.Response.mapCharacterEnter.Characters.Add(kv.Value.character.Info);
                 this.SendCharacterEnterMap(kv.Value.connection, character.Info);
             }
 
 
-            byte[] data = PackageHandler.PackMessage(message);
-            conn.SendData(data, 0, data.Length);
+            sender.SendResponse();
         }
 
-        void SendCharacterEnterMap(NetConnection<NetSession> conn, NCharacterInfo character)
+        void SendCharacterEnterMap(NetConnection<NetSession> sender, NCharacterInfo character)
         {
-            NetMessage message = new NetMessage();
-            message.Response = new NetMessageResponse();
 
-            message.Response.mapCharacterEnter = new MapCharacterEnterResponse();
-            message.Response.mapCharacterEnter.mapId = this.Define.ID;
-            message.Response.mapCharacterEnter.Characters.Add(character);
 
-            byte[] data = PackageHandler.PackMessage(message);
-            conn.SendData(data, 0, data.Length);
+            sender.Session.Response.mapCharacterEnter = new MapCharacterEnterResponse();
+            sender.Session.Response.mapCharacterEnter.mapId = this.Define.ID;
+            sender.Session.Response.mapCharacterEnter.Characters.Add(character);
+
+            sender.SendResponse();
         }
 
         internal void CharacterLeave(Character character)
@@ -102,15 +98,13 @@ namespace GameServer.Models
             MapCharacters.Remove(character.Id);
         }
 
-        private void SendCharacterLeaveMap(NetConnection<NetSession> connection, Character character)
+        private void SendCharacterLeaveMap(NetConnection<NetSession> sender, Character character)
         {
-            NetMessage message = new NetMessage();
-            message.Response = new NetMessageResponse();
-            message.Response.mapCharacterLeave = new MapCharacterLeaveResponse();
-            message.Response.mapCharacterLeave.characterId = character.Id;
 
-            byte[] data = PackageHandler.PackMessage(message);
-            connection.SendData(data, 0, data.Length);
+            sender.Session.Response.mapCharacterLeave = new MapCharacterLeaveResponse();
+            sender.Session.Response.mapCharacterLeave.characterId = character.Id;
+
+            sender.SendResponse();
         }
 
 

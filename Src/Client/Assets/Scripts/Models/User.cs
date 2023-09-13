@@ -29,5 +29,10 @@ namespace Models
         public SkillBridge.Message.NCharacterInfo CurrentCharacter { get; set; }
         // 当前角色游戏对象
         public GameObject CurrentCharacterObject { get; set; }
+
+        public void AddGold(int gold)
+        {
+            CurrentCharacter.Gold += gold;
+        }
     }
 }
