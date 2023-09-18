@@ -41,7 +41,7 @@ namespace Managers
             int i = 0;
             foreach (var kv in ItemManager.Instance.Items)
             {
-                if (kv.Value.Count <= kv.Value.Define.StackLimit)
+                if (kv.Value.Count <= kv.Value.ItemInfo.StackLimit)
                 {
                     Items[i].ItemId = (ushort)kv.Key;
                     Items[i].Count = (ushort)kv.Value.Count;
@@ -49,12 +49,12 @@ namespace Managers
                 else
                 {
                     int count = kv.Value.Count;
-                    while (count > kv.Value.Define.StackLimit)
+                    while (count > kv.Value.ItemInfo.StackLimit)
                     {
                         Items[i].ItemId = (ushort)kv.Key;
-                        Items[i].Count = (ushort)kv.Value.Define.StackLimit;
+                        Items[i].Count = (ushort)kv.Value.ItemInfo.StackLimit;
                         i++;
-                        count -= kv.Value.Define.StackLimit;
+                        count -= kv.Value.ItemInfo.StackLimit;
                     }
                     Items[i].ItemId = (ushort)kv.Key;
                     Items[i].Count = (ushort)count;
@@ -119,6 +119,7 @@ namespace Managers
                         Items[i].ItemId = (ushort)itemId;
                         // todo: 未考虑StackLimit
                         Items[i].Count = addCount;
+                        break;
                     }
                 }
             }

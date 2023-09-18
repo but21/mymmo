@@ -13,7 +13,8 @@ namespace Models
     {
         public int Id;
         public int Count;
-        public ItemDefine Define;
+        public ItemDefine ItemInfo;
+        public EquipDefine EquipInfo;
 
 
         public Item(NItemInfo item) : this(item.Id, item.Count)
@@ -24,7 +25,9 @@ namespace Models
         {
             Id = id;
             Count = count;
-            Define = DataManager.Instance.Items[Id];
+            DataManager.Instance.Items.TryGetValue(id, out ItemInfo);
+            DataManager.Instance.Equips.TryGetValue(id, out EquipInfo);
+
         }
 
         public override string ToString()

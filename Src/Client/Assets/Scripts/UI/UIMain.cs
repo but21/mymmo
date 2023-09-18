@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Models;
 using UI;
+using Assets.Scripts.UI;
 
 // 主UI, 进入地图后一直存在的UI, 如角色血条, 地图等
 public class UIMain : MonoSingleton<UIMain>
@@ -48,5 +49,10 @@ public class UIMain : MonoSingleton<UIMain>
     public void OnClickBag()
     {
         UIManager.Instance.Show<UIBag>();
+    }
+
+    public void OnClickCharEquip()
+    {
+        UIManager.Instance.Show<UICharEquip>();
     }
 }

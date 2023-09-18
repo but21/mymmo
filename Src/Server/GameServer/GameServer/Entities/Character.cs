@@ -36,11 +36,13 @@ namespace GameServer.Entities
 
             ItemManager = new ItemManager(this);
             ItemManager.GetItemInfos(Info.Items);
-            StatusManager = new StatusManager(this);
 
             Info.Bag = new NBagInfo();
             Info.Bag.Items = this.Data.Bag.Items;
             Info.Bag.Unlocked = Data.Bag.Unlocked;
+            Info.Equips = Data.Equips;
+
+            StatusManager = new StatusManager(this);
         }
 
         public long Gold
@@ -48,7 +50,7 @@ namespace GameServer.Entities
             get { return this.Data.Gold; }
             set
             {
-                if(this.Data.Gold == value)
+                if (this.Data.Gold == value)
                 {
                     return;
                 }

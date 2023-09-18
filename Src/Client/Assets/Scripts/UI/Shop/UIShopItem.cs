@@ -15,6 +15,7 @@ namespace Assets.Scripts.UI.Shop
         public Text Title;
         public Text Count;
         public Text Price;
+        public Text LimitClass;
 
         public Image Background;
         public Sprite NormalBg;
@@ -48,8 +49,9 @@ namespace Assets.Scripts.UI.Shop
             _item = DataManager.Instance.Items[ShopItem.ItemID];
 
             Title.text = _item.Name;
-            Count.text = ShopItem.Count.ToString();
+            Count.text = "x" + ShopItem.Count.ToString();
             Price.text = ShopItem.Price.ToString();
+            LimitClass.text = _item.LimitClass.ToString();
             Icon.overrideSprite = Resloader.Load<Sprite>(_item.Icon);
         }
 

@@ -16,6 +16,9 @@ namespace Services
 
         Dictionary<StatusType, StatusNotifyHandler> eventMap = new Dictionary<StatusType, StatusNotifyHandler>();
 
+        // 解决角色多次进入而不退出游戏导致多次注册通知的问题
+        HashSet<StatusNotifyHandler> handlers = new HashSet<StatusNotifyHandler>();
+
         public void Init()
         {
 
@@ -23,6 +26,10 @@ namespace Services
 
         public void RegisterStatusNotify(StatusType function, StatusNotifyHandler action)
         {
+            if (handlers.Contains(action))
+            {
+                return;
+            }
             if (!eventMap.ContainsKey(function))
             {
                 eventMap[function] = action;
@@ -31,6 +38,7 @@ namespace Services
             {
                 eventMap[function] += action;
             }
+            handlers.Add(action);
         }
 
         public StatusService()

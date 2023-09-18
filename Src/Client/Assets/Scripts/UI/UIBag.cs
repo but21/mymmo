@@ -54,7 +54,7 @@ namespace UI
                 {
                     GameObject go = Instantiate(BagItem, slots[i].transform);
                     var ui = go.GetComponent<UIIconItem>();
-                    var define = ItemManager.Instance.Items[item.ItemId].Define;
+                    var define = ItemManager.Instance.Items[item.ItemId].ItemInfo;
                     ui.SetMainIcon(define.Icon, item.Count.ToString());
                 }
             }
@@ -73,13 +73,22 @@ namespace UI
             yield return null;
         }
 
-        public void SetTitle(string title)
+        void Clear()
         {
+            for (int i = 0; i < slots.Count; i++)
+            {
+                if(slots[i].transform.childCount > 0)
+                {
+                    Destroy(slots[i].transform.GetChild(0).gameObject);
+                }
+            }
         }
 
         public void OnReset()
         {
             BagManager.Instance.Reset();
+            Clear();
+            StartCoroutine(InitBags());
         }
 
     }

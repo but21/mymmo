@@ -23,7 +23,7 @@ namespace Assets.Scripts.UI.Shop
         ShopDefine shop;
         public Transform[] ItemRoot;
 
-        
+
 
         private void Start()
         {
@@ -33,13 +33,22 @@ namespace Assets.Scripts.UI.Shop
 
         IEnumerator InitItems()
         {
+            int count = 0;
+            int page = 0;
             foreach (var kv in DataManager.Instance.ShopItems[shop.ID])
             {
                 if (kv.Value.Status > 0)
                 {
-                    GameObject go = Instantiate(ShopItem, ItemRoot[0]);
+                    GameObject go = Instantiate(ShopItem, ItemRoot[page]);
                     UIShopItem ui = go.GetComponent<UIShopItem>();
                     ui.SetShopItem(kv.Key, kv.Value, this);
+                    count++;
+                    if (count >= 20)
+                    {
+                        count = 0;
+                        page++;
+                        ItemRoot[page].gameObject.SetActive(true);
+                    }
                 }
             }
             yield return null;

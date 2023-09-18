@@ -119,6 +119,7 @@ namespace GameServer.Services
                 MapPosY = 4000,
                 MapPosZ = 820,
                 Gold = 100000,
+                Equips = new byte[28],
             };
 
             var bag = new TCharacterBag();
@@ -128,6 +129,9 @@ namespace GameServer.Services
             character.Bag = DBService.Instance.Entities.CharacterBags.Add(bag);
 
             character = DBService.Instance.Entities.Characters.Add(character);
+
+            character.Items.Add(new TCharacterItem { Owner = character, ItemId = 1, ItemCount = 20 });
+            character.Items.Add(new TCharacterItem { Owner = character, ItemId = 2, ItemCount = 20 });
             sender.Session.User.Player.Characters.Add(character);
             DBService.Instance.Entities.SaveChanges();
 
@@ -160,35 +164,10 @@ namespace GameServer.Services
             sender.Session.Response.gameEnter = new UserGameEnterResponse();
             sender.Session.Response.gameEnter.Result = Result.Success;
             sender.Session.Response.gameEnter.Errormsg = "None";
-
+            sender.Session.Character = character;
             sender.Session.Response.gameEnter.Character = character.Info;
 
-            // 道具系统测试
-            int ItemId = 2;
-            bool hasItem = character.ItemManager.HasItem(ItemId);
-            //Log.Info($"hasItem:{hasItem}");
-            if (!hasItem)
-            {
-                //character.ItemManager.RemoveItem(ItemId, 1);
-                character.ItemManager.AddItem(1, 200);
-                character.ItemManager.AddItem(2, 100);
-                character.ItemManager.AddItem(3, 30);
-                character.ItemManager.AddItem(4, 120);
-            }
-            //else
-            //{
-
-            //}
-            //Item item = character.ItemManager.GetItem(ItemId);
-            //Log.Info($"{ItemId} {item}");
-            Log.Info($"Item1:{character.ItemManager.GetItem(1)}");
-            Log.Info($"Item2:{character.ItemManager.GetItem(2)}");
-            Log.Info($"Item3:{character.ItemManager.GetItem(3)}");
-            Log.Info($"Item4:{character.ItemManager.GetItem(4)}");
-            DBService.Instance.Save();
-
             sender.SendResponse();
-            sender.Session.Character = character;
 
             MapManager.Instance[dbCharacter.MapID].CharacterEnter(sender, character);
         }

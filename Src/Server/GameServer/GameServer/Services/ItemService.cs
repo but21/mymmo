@@ -16,8 +16,8 @@ namespace Services
         public ItemService()
         {
             MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<ItemBuyResquest>(OnItemBuy);
+            MessageDistributer<NetConnection<NetSession>>.Instance.Subscribe<ItemEquipRequest>(OnItemEquip);
         }
-
         public void Init()
         {
         }
@@ -32,5 +32,17 @@ namespace Services
             sender.Session.Response.itemBuy.Gold = character.Gold;
             sender.SendResponse();
         }
+
+        void OnItemEquip(NetConnection<NetSession> sender, ItemEquipRequest request)
+        {
+            Character character = sender.Session.Character;
+            Log.Info($"OnItemEquip:charcter:{character.Id} slot:{request.Slot} item:{request.itemId} equip:{request.isEquip}");
+
+            var result = EquipManager.Instance.EquipItem(sender, request.Slot, request.itemId, request.isEquip);
+            sender.Session.Response.itemEquip = new ItemEquipResponse();
+            sender.Session.Response.itemEquip.Result = result;
+            sender.SendResponse();
+        }
+
     }
 }
