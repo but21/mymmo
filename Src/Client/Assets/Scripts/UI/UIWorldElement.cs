@@ -9,14 +9,18 @@ public class UIWorldElement : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        if(owner != null)
+        if (owner != null)
         {
             transform.position = owner.position + Vector3.up * height;
+        }
+        if (Camera.main != null)
+        {
+            transform.forward = Camera.main.transform.forward;
         }
     }
 }

@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[ExecuteInEditMode]
 public class UINameBar : MonoBehaviour
 {
+
+    //public Image Avatar;
     public Text AvatarName;
 
     public Character character;
@@ -15,7 +18,13 @@ public class UINameBar : MonoBehaviour
     {
         if (character != null)
         {
-            UpdateInfo();
+/*            if(character.Info.Type == SkillBridge.Message.CharacterType.Monster)
+            {
+                Avatar.gameObject.SetActive(false);
+            }
+            else{
+                Avatar.gameObject.SetActive(true);
+            }*/
         }
     }
 
@@ -25,7 +34,7 @@ public class UINameBar : MonoBehaviour
         UpdateInfo();
 
         // 使角色信息条的前方等于摄像机的前方
-        transform.forward = Camera.main.transform.forward;
+        //transform.forward = Camera.main.transform.forward;
     }
 
     // 更新角色头顶信息

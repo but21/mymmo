@@ -20,10 +20,12 @@ public class UIManager : Singleton<UIManager>
 
     public UIManager()
     {
-        UIResources.Add(typeof(UITest), new UIElement() { Resources = "UI/UITest", Cache = true });
+        UIResources.Add(typeof(UITest), new UIElement() { Resources = "UI/UITest", Cache = false });
         UIResources.Add(typeof(UIBag), new UIElement() { Resources = "UI/UIBag", Cache = false });
         UIResources.Add(typeof(UIShop), new UIElement() { Resources = "UI/UIShop", Cache = false });
         UIResources.Add(typeof(UICharEquip), new UIElement() { Resources = "UI/UICharEquip", Cache = false });
+        UIResources.Add(typeof(UIQuestSystem), new UIElement() { Resources = "UI/UIQuestSystem", Cache = false });
+        UIResources.Add(typeof(UIQuestDialog), new UIElement() { Resources = "UI/UIQuestDialog", Cache = false });
     }
 
     ~UIManager()
@@ -38,14 +40,14 @@ public class UIManager : Singleton<UIManager>
         if (UIResources.ContainsKey(type))
         {
             UIElement info = UIResources[type];
-            if(info.Instance != null)
+            if (info.Instance != null)
             {
                 info.Instance.SetActive(true);
             }
             else
             {
                 UnityEngine.Object prefab = Resources.Load(info.Resources);
-                if(prefab == null)
+                if (prefab == null)
                 {
                     return default(T);
                 }
