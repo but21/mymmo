@@ -18,12 +18,12 @@ namespace Assets.Scripts.UI
         public void SetQuestStatus(NpcQuestStatus status)
         {
             _questStatus = status;
-            for (int i = 0; i < StatusImages.Length; i++)
+            for (int i = 0; i < 4; i++)
             {
                 if (StatusImages[i] != null)
                 {
                     StatusImages[i].gameObject.SetActive(i == (int)status);
-                }
+                }   
             }
         }
     }

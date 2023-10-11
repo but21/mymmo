@@ -26,7 +26,7 @@ namespace GameServer
             int port = Properties.Settings.Default.ServerPort;
 
             // 服务端的监听
-            network = new NetService();
+            network = new NetService(); 
             network.Init(port);
 
             HelloWorldService.Instance.Init();
@@ -35,6 +35,7 @@ namespace GameServer
             MapService.Instance.Init();
             UserService.Instance.Init();
             ItemService.Instance.Init();
+            QuestService.Instance.Init();
             thread = new Thread(new ThreadStart(this.Update));
 
             return true;

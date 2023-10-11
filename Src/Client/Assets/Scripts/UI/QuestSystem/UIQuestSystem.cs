@@ -66,7 +66,8 @@ namespace Assets.Scripts.UI
                 }
                 else
                 {
-                    if(kv.Value.Info == null)
+                    // todo: kv.Value.Info.Status == SkillBridge.Message.QuestStatus.Finished
+                    if (kv.Value.Info == null)
                     {
                         continue;
                     }
@@ -75,15 +76,16 @@ namespace Assets.Scripts.UI
                 GameObject go = Instantiate(ItemPrefab, kv.Value.Define.Type == QuestType.Main ? ListMain.transform : ListBranch.transform);
                 UIQuestItem ui = go.GetComponent<UIQuestItem>();
                 ui.SetQuestInfo(kv.Value);
-                if(kv.Value.Define.Type == QuestType.Main)
+                /*if(kv.Value.Define.Type == QuestType.Main)
                 {
                     ListMain.AddItem(ui);
-                    
                 }
                 else
                 {
                     ListBranch.AddItem(ui);
-                }
+                }*/
+                ListMain.AddItem(ui);
+                ListBranch.AddItem(ui);
             }
         }
 

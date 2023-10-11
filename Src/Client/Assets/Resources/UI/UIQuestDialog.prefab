@@ -751,9 +751,9 @@ RectTransform:
   m_Father: {fileID: 1723859268197091164}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 277.0873, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 277.0873, y: -5}
   m_SizeDelta: {x: 554.1746, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1723859266790158483
@@ -1133,9 +1133,9 @@ RectTransform:
   m_Father: {fileID: 1723859268197091164}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 277.0873, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 277.0873, y: -10}
   m_SizeDelta: {x: 554.1746, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1723859267297482387
@@ -1391,10 +1391,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1723859267542226840}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1865542680876648706}
+        m_TargetAssemblyTypeName: UIWindow, Assembly-CSharp
+        m_MethodName: OnCloseClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1437,9 +1437,9 @@ RectTransform:
   m_Father: {fileID: 1723859267833692650}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 298.1, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 298.1, y: -43}
   m_SizeDelta: {x: 596.2, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1723859267410388330
@@ -1532,8 +1532,8 @@ RectTransform:
   m_Father: {fileID: 1723859268197091164}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 277.0873, y: 0}
   m_SizeDelta: {x: 554.1746, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1812,7 +1812,8 @@ MonoBehaviour:
   - {fileID: 1723859266790158480}
   - {fileID: 1723859267297482384}
   Description: {fileID: 1723859267410388331}
-  RewardItems: {fileID: 0}
+  RewardItems:
+  - {fileID: 0}
   RewardMoney: {fileID: 1723859267960864438}
   RewardExp: {fileID: 1723859268136097475}
 --- !u!1 &1723859267595915772
@@ -2922,7 +2923,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1865542680876648706}
         m_TargetAssemblyTypeName: UIWindow, Assembly-CSharp
-        m_MethodName: OnCloseClick
+        m_MethodName: OnNoClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
