@@ -58,17 +58,18 @@ namespace GameServer.Models
             character.Info.mapId = this.ID;
 
 
+            this.MapCharacters[character.Id] = new MapCharacter(sender, character);
 
             sender.Session.Response.mapCharacterEnter = new MapCharacterEnterResponse();
             sender.Session.Response.mapCharacterEnter.mapId = this.Define.ID;
-            sender.Session.Response.mapCharacterEnter.Characters.Add(character.Info);
 
-            this.MapCharacters[character.Id] = new MapCharacter(sender, character);
+            //sender.Session.Response.mapCharacterEnter.Characters.Add(character.Info);
 
             foreach (var kv in this.MapCharacters)
             {
                 sender.Session.Response.mapCharacterEnter.Characters.Add(kv.Value.character.Info);
-                this.SendCharacterEnterMap(kv.Value.connection, character.Info);
+                if (kv.Value.character != character)
+                    this.SendCharacterEnterMap(kv.Value.connection, character.Info);
             }
 
 
@@ -78,9 +79,11 @@ namespace GameServer.Models
         void SendCharacterEnterMap(NetConnection<NetSession> sender, NCharacterInfo character)
         {
 
-
-            sender.Session.Response.mapCharacterEnter = new MapCharacterEnterResponse();
-            sender.Session.Response.mapCharacterEnter.mapId = this.Define.ID;
+            if (sender.Session.Response.mapCharacterEnter == null)
+            {
+                sender.Session.Response.mapCharacterEnter = new MapCharacterEnterResponse();
+                sender.Session.Response.mapCharacterEnter.mapId = this.Define.ID;
+            }
             sender.Session.Response.mapCharacterEnter.Characters.Add(character);
 
             sender.SendResponse();

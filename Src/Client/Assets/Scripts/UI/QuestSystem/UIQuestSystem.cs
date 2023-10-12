@@ -67,7 +67,7 @@ namespace Assets.Scripts.UI
                 else
                 {
                     // todo: kv.Value.Info.Status == SkillBridge.Message.QuestStatus.Finished
-                    if (kv.Value.Info == null)
+                    if (kv.Value.Info == null || kv.Value.Info.Status == SkillBridge.Message.QuestStatus.Finished)
                     {
                         continue;
                     }

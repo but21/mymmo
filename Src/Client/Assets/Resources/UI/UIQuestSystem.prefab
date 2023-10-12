@@ -1488,7 +1488,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u62DC\u8BBF\u7231\u4E0D\u4E8C\u62DC\u8BBF\u7231\u4E0D\u4E8C\u62DC\u8BBF\u7231\u4E0D\u4E8C\u62DC\u8BBF\u7231\u4E0D\u4E8C\n\u62DC\u8BBF\u7231\u4E0D\u4E8C\u62DC\u8BBF\u7231\u4E0D\u4E8C\u62DC\u8BBF\u7231\u4E0D\u4E8C\u62DC\u8BBF\u7231\u4E0D\u4E8C"
+  m_Text: 
 --- !u!114 &6891542450537014805
 MonoBehaviour:
   m_ObjectHideFlags: 0
